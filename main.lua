@@ -17,7 +17,8 @@ function love.load()
 	love.window.setTitle("Pong")
 
 	smallFont = love.graphics.newFont("font.ttf", 8)
-	-- scoreFont = love.graphics.newFont("font.ttf", 32)
+	scoreFont = love.graphics.newFont("font.ttf", 32)
+
 	push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
 		fullscreen = false,
 		resizable = false,
@@ -25,8 +26,6 @@ function love.load()
 	})
 
 	game:init()
-
-	gameState = "start"
 end
 
 function love.update(dt)
