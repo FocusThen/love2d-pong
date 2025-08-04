@@ -13,6 +13,12 @@ function Game:init()
 	player2 = Paddle(VIRTUAL_WIDTH - 10, VIRTUAL_HEIGHT - 30, 5, 20)
 	ball = Ball(VIRTUAL_WIDTH / 2 - 2, VIRTUAL_HEIGHT / 2 - 2, 4, 4)
 
+	sounds = {
+		["paddle_hit"] = love.audio.newSource("src/assets/sounds/paddle_hit.wav", "static"),
+		["score"] = love.audio.newSource("src/assets/sounds/score.wav", "static"),
+		["wall_hit"] = love.audio.newSource("src/assets/sounds/wall_hit.wav", "static"),
+	}
+
 	gameState = "start"
 end
 
@@ -33,6 +39,8 @@ function Game:update(dt)
 			else
 				ball.dy = math.random(10, 150)
 			end
+
+      sounds['paddle_hit']:play()
 		end
 		if ball:collides(player2) then
 			ball.dx = -ball.dx * 1.03
@@ -42,20 +50,27 @@ function Game:update(dt)
 			else
 				ball.dy = math.random(10, 150)
 			end
+
+      sounds['paddle_hit']:play()
 		end
 
 		if ball.y <= 0 then
 			ball.y = 0
 			ball.dy = -ball.dy
+
+      sounds['wall_hit']:play()
 		end
 
 		if ball.y >= VIRTUAL_HEIGHT - 4 then
 			ball.y = VIRTUAL_HEIGHT - 4
 			ball.dy = -ball.dy
+
+      sounds['wall_hit']:play()
 		end
 	end
 
 	if ball.x < 0 then
+    sounds['score']:play()
 		servingPlayer = 1
 		p2Score = p2Score + 1
 		ball:reset()
@@ -63,6 +78,7 @@ function Game:update(dt)
 	end
 
 	if ball.x > VIRTUAL_WIDTH then
+    sounds['score']:play()
 		servingPlayer = 2
 		p1Score = p1Score + 1
 		ball:reset()
